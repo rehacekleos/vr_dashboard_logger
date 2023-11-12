@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Net;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Editor
     {
 
 
-        public IEnumerator SendActivity(Activity activity)
+        public IEnumerator SendActivity(Activity activity, Action<bool> responseCallback)
         {
             var url = "";
             var activityBytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(activity));
@@ -25,14 +26,7 @@ namespace Editor
 
             yield return wr.SendWebRequest();
 
-            if (wr.result != UnityWebRequest.Result.Success)
-            {
-                yield return false;
-            }
-            else
-            {
-                yield return true;
-            }
+            responseCallback.Invoke(wr.result == UnityWebRequest.Result.Success);
         }
     
     }

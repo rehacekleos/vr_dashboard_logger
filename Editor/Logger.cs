@@ -102,9 +102,9 @@ namespace Editor
             Debug.Log("Logging stopped.");
         }
 
-        public bool SendActivity()
-        {
-            var result = StartCoroutine(LoggerHelper.SendActivity(Activity));
+        public void SendActivity(Action<bool> responseCallback)
+        { 
+            StartCoroutine(LoggerHelper.SendActivity(Activity, responseCallback));
         }
         
         

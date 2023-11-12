@@ -1,0 +1,9 @@
+{
+  "name": "cz.leosreahcek.vr_dashboard_logger",
+  "version": "0.0.1",
+  "displayName": "VR dashboard logger",
+  "license": "MIT",
+  "author": {
+    "name": "Leos Rehacek"
+  }
+}

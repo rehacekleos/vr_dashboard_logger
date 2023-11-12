@@ -2,6 +2,7 @@
   "name": "cz.leosreahcek.vr_dashboard_logger",
   "version": "0.0.1",
   "displayName": "VR dashboard logger",
+  "description": "This package is used to log VR data to a compatible server.",
   "license": "MIT",
   "author": {
     "name": "Leos Rehacek"

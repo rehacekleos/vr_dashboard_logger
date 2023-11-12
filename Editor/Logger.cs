@@ -6,38 +6,31 @@ using UnityEngine;
 
 namespace Editor
 {
-    public class Logger : MonoBehaviour
+    public class Logger : LoggerBase
     {
-
-        public GameObject head;
-        public GameObject leftHand;
-        public GameObject rightHand;
         
+        private readonly string _applicationIdentifier;
+        private readonly int _logRate = 300;
+        private readonly string _logVersion;
         
-        private string _applicationIdentifier;
         private string _organisationCode;
-        private int _logRate = 300;
-        private string _logVersion;
         private string _participantId;
         private bool _isAnonymous = true;
         private string _customData;
-        private Activity _activity;
-        private bool _logging = false;
-
-        private int _tick = 0;
-        private readonly List<string> _events = new List<string>();
-        private string _environment;
-        private string _recordCustomData;
-        private bool _isHeadNotNull;
-        private bool _isLeftHandNotNull;
-        private bool _isRightHandNotNull;
-
+        private bool _logging;
+        
+        /*
+         * Default Constructor with Log Rate 300 ms.
+         */
         public Logger(string applicationIdentifier, string logVersion)
         {
             _applicationIdentifier = applicationIdentifier;
             _logVersion = logVersion;
         }
 
+        /*
+         * Constructor with custom Log Rate.
+         */
         public Logger(string applicationIdentifier, string logVersion, int logRate)
         {
             _applicationIdentifier = applicationIdentifier;
@@ -45,14 +38,10 @@ namespace Editor
             _logVersion = logVersion;
         }
 
-
-        private void Start()
-        {
-            _isRightHandNotNull = rightHand != null;
-            _isLeftHandNotNull = leftHand != null;
-            _isHeadNotNull = head != null;
-        }
-
+        /*
+         * This method is for initialize logger.
+         * Need to be call before StartLogging().
+         */
         public void InitializeLogger()
         {
             if (_organisationCode == null)
@@ -60,78 +49,45 @@ namespace Editor
                 throw new Exception("Organisation is not set!");
             }
 
+            string participant = null;
+            if (!string.IsNullOrEmpty(_participantId))
+            {
+                participant = _participantId;
+            }
+
             var vrData = new VrData(_applicationIdentifier, _logVersion, _logRate, _customData);
-            _activity = new Activity(vrData, _isAnonymous, _organisationCode, _participantId);
+            Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
         }
 
+        
+        /*
+         * Starting logging VR data.
+         */
         public void StartLogging(string environment)
         {
-            if (_activity == null)
+            if (_logging)
+            {
+                throw new Exception("Logging is active!");
+            }
+            
+            if (Activity == null)
             {
                 throw new Exception("Logger is not Initialized!");
             }
 
             _logging = true;
-            _environment = environment;
-            _activity.data.start = DateTime.Now;
+            Environment = environment;
+            Activity.data.start = DateTime.Now;
 
             var logRateInSeconds = _logRate / 1000f;
 
             StartCoroutine(LoggingCoroutine(logRateInSeconds));
             Debug.Log("Logging started.");
         }
-
-        private IEnumerator LoggingCoroutine(float waitTime)
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(waitTime);
-                
-                Logging();
-            }
-        }
-
-        private void Logging()
-        {
-            string[] events = null;
-            string customData = null;
-            PositionAndRotation headData = null;
-            PositionAndRotation leftHandData = null;
-            PositionAndRotation rightHandData = null;
-            
-            if (_events.Count > 0)
-            {
-                events = _events.ToArray();
-                _events.Clear();
-            }
-
-            if (!string.IsNullOrEmpty(_recordCustomData))
-            {
-                customData = _recordCustomData;
-                _recordCustomData = null;
-            }
-
-            if (_isHeadNotNull)
-            {
-                headData = PositionAndRotation.GetPositionAndRotation(head);
-            }
-            
-            if (_isLeftHandNotNull)
-            {
-                leftHandData = PositionAndRotation.GetPositionAndRotation(leftHand);
-            }
-
-            if (_isRightHandNotNull)
-            {
-                rightHandData = PositionAndRotation.GetPositionAndRotation(rightHand);
-            }
-            
-            var record = new Record(DateTime.Now, _tick, _environment, headData, leftHandData, rightHandData, customData, events);
-            _activity.data.records.Add(record);
-
-            _tick++;
-        }
-
+        
+        /*
+         * Stop logging VR data.
+         */
         public void StopLogging()
         {
             if (_logging == false)
@@ -139,23 +95,34 @@ namespace Editor
                 throw new Exception("Logging is not active!");
             }
             
-            _activity.data.end = DateTime.Now;
+            Activity.data.end = DateTime.Now;
             
             StopCoroutine(LoggingCoroutine(0));
+            _logging = false;
             Debug.Log("Logging stopped.");
         }
-        
-        public void SetEvent(string eventKey)
+
+        public bool SendActivity()
         {
-            _events.Add(eventKey);
+            var result = StartCoroutine(LoggerHelper.SendActivity(Activity));
         }
         
-
+        
+        // ------------------------------------------------ Setters section ------------------------------------------------
+        
+        /*
+         * Set custom data in json string.
+         * Must be call before InitializeLogger()
+         */
         public void SetOrganisation(string organisationCode)
         {
             _organisationCode = organisationCode;
         }
 
+        /*
+         * Set custom data in json string.
+         * Must be call before InitializeLogger()
+         */
         public void SetParticipant(string participantId)
         {
             _participantId = _organisationCode;
@@ -164,23 +131,38 @@ namespace Editor
 
         /*
          * Set custom data in json string.
+         * Must be call before StartLogging()
          */
         public void SetCustomData(string customDataJson)
         {
             _customData = customDataJson;
         }
 
+        /*
+         * Setting environment.
+         * Can be call anytime during logging.
+         */
         public void SetEnvironment(string environment)
         {
-            _environment = environment;
+            Environment = environment;
         }
 
         /*
-         * Set event custom data in json string.
+         * Set record custom data in json string.
+         * Can be call anytime during logging.
          */
         public void SetRecordCustomData(string eventCustomDataJson)
         {
-            _recordCustomData = eventCustomDataJson;
+            RecordCustomData = eventCustomDataJson;
+        }
+        
+        /*
+         * Set event.
+         * Can be call anytime during logging.
+         */
+        public void SetEvent(string eventKey)
+        {
+            Events.Add(eventKey);
         }
     }
 }

@@ -6,5 +6,8 @@
   "license": "MIT",
   "author": {
     "name": "Leos Rehacek"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   }
 }

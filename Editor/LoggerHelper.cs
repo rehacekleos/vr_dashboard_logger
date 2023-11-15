@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using Editor.Classes;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,9 +14,9 @@ namespace Editor
     {
 
 
-        public IEnumerator SendActivity(Activity activity, Action<bool> responseCallback)
+        public IEnumerator SendActivity(string apiBaseUrl, Activity activity, Action<bool> responseCallback)
         {
-            var url = "";
+            var url = apiBaseUrl + "/";
             var activityBytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(activity));
 
             UnityWebRequest wr = new UnityWebRequest(url, WebRequestMethods.Http.Post);
@@ -28,6 +30,33 @@ namespace Editor
 
             responseCallback.Invoke(wr.result == UnityWebRequest.Result.Success);
         }
-    
+
+        public IEnumerator GetParticipants(string apiBaseUrl, string applicationIdentifier, string organisationCode, Action<List<Participant>> responseCallback)
+        {
+            var url = apiBaseUrl + "/";
+            UnityWebRequest request = UnityWebRequest.Get(url);
+            
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError(request.error);
+                responseCallback.Invoke(null);
+            }
+            else
+            {
+                var json = request.downloadHandler.text;
+                // Transform JSON text to VR data object
+                var data = JsonConvert.DeserializeObject<ParticipantList>(json);
+
+                if (data == null)
+                {
+                    responseCallback.Invoke(null);
+                    throw new ArgumentNullException(nameof(data));
+                }
+
+                responseCallback.Invoke(data.participants);
+            }
+        }
     }
 }

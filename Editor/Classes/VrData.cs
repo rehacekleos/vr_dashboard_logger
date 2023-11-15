@@ -51,6 +51,7 @@ namespace Editor.Classes
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(request.error);
+                responseCallback.Invoke(null);
             }
             else
             {
@@ -60,6 +61,7 @@ namespace Editor.Classes
 
                 if (data == null)
                 {
+                    responseCallback.Invoke(null);
                     throw new ArgumentNullException(nameof(data));
                 }
 

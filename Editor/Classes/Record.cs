@@ -27,5 +27,12 @@ namespace Editor.Classes
             custom_data = customData;
             this.events = events;
         }
+        
+        public override string ToString()
+        {
+            return string.Format(
+                "[Record: timestamp={0}, tick={1}, environment={2}, head={3}, left_hand={4}, right_hand={5}, custom_data={6}, events={7}]",
+                timestamp, tick, environment, head, left_hand, right_hand, custom_data ?? "null", (object)events ?? "null");
+        }
     }
 }

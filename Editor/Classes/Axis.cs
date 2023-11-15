@@ -16,5 +16,10 @@ namespace Editor.Classes
             this.y = y;
             this.z = z;
         }
+        
+        public override string ToString()
+        {
+            return string.Format("[Axis: x={0}, y={1}, z={2}]", x, y, z);
+        }
     }
 }

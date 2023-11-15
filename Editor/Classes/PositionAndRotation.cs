@@ -25,5 +25,10 @@ namespace Editor.Classes
 
              return new PositionAndRotation(positionAxis, rotationAxis);
         }
+        
+        public override string ToString()
+        {
+            return string.Format("[PositionAndRotation: position={0}, rotation={1}]", (object)position ?? "null", (object)rotation ?? "null");
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -64,7 +65,7 @@ namespace Editor.Classes
         
         private VrData CreateFromJson(string json)
         {
-            return JsonUtility.FromJson<VrData>(json);
+            return JsonConvert.DeserializeObject<VrData>(json);
         }
 
         public override string ToString()

@@ -70,7 +70,7 @@ namespace Editor
 
         public IEnumerator GetParticipants(string apiBaseUrl, string applicationIdentifier, string organisationCode, Action<List<Participant>> responseCallback)
         {
-            var url = apiBaseUrl + "/";
+            var url = apiBaseUrl + "/public/participants/" + applicationIdentifier + "/" + organisationCode;
             UnityWebRequest request = UnityWebRequest.Get(url);
             
             yield return request.SendWebRequest();

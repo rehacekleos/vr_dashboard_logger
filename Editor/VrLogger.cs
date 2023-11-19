@@ -8,7 +8,7 @@ namespace Editor
 {
     public class VrLogger : LoggerBase
     {
-        private WebGLHelper _webGLHelper = new WebGLHelper();
+        private readonly WebGLHelper _webGLHelper = new WebGLHelper();
         private readonly string _apiBaseUrl;
         private readonly string _applicationIdentifier;
         private readonly int _logRate = 300;
@@ -156,6 +156,11 @@ namespace Editor
         }
 
 
+        /// <summary>
+        /// Getting VrData. Using for WebGL module.
+        /// </summary>
+        /// <param name="responseCallback">Returning VR data get from server</param>
+        /// <param name="customServerUrl">(Optional) Custom Server URL. Standard resolve serverUrl from hosting server.</param>
         public void GetVrData(Action<VrData> responseCallback, string customServerUrl = "")
         {
             var webGlData = _webGLHelper.GetWebGlData(customServerUrl);

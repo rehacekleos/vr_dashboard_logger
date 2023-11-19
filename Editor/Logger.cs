@@ -19,7 +19,14 @@ namespace Editor
         private bool _isAnonymous = true;
         private string _customData;
         private bool _logging;
-        
+
+        /// <summary>
+        /// Empty Constructor. Using for WebGL module
+        /// </summary>
+        public Logger()
+        {
+        }
+
         /// <summary>
         /// Default Constructor with Log Rate 300 ms.
         /// </summary>

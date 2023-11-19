@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Editor
 {
-    public class Logger : LoggerBase
+    public class VrLogger : LoggerBase
     {
         private WebGLHelper _webGLHelper = new WebGLHelper();
         private readonly string _apiBaseUrl;
@@ -23,7 +23,7 @@ namespace Editor
         /// <summary>
         /// Empty Constructor. Using for WebGL module
         /// </summary>
-        public Logger()
+        public VrLogger()
         {
         }
 
@@ -33,7 +33,7 @@ namespace Editor
         /// <param name="apiBaseUrl">Base url of server API. For example: http://localhost:8080</param>
         /// <param name="applicationIdentifier">Application identifier</param>
         /// <param name="logVersion">Log version "1.0.0"</param>
-        public Logger(string apiBaseUrl, string applicationIdentifier, string logVersion)
+        public VrLogger(string apiBaseUrl, string applicationIdentifier, string logVersion)
         {
             _apiBaseUrl = apiBaseUrl;
             _applicationIdentifier = applicationIdentifier;
@@ -48,7 +48,7 @@ namespace Editor
         /// <param name="applicationIdentifier">Application identifier</param>
         /// <param name="logVersion">Log version "1.0.0"</param>
         /// <param name="logRate">Log rate</param>
-        public Logger(string apiBaseUrl, string applicationIdentifier, string logVersion, int logRate)
+        public VrLogger(string apiBaseUrl, string applicationIdentifier, string logVersion, int logRate)
         {
             _apiBaseUrl = apiBaseUrl;
             _applicationIdentifier = applicationIdentifier;

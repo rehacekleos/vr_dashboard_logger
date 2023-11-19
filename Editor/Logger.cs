@@ -8,6 +8,7 @@ namespace Editor
 {
     public class Logger : LoggerBase
     {
+        private WebGLHelper _webGLHelper = new WebGLHelper();
         private readonly string _apiBaseUrl;
         private readonly string _applicationIdentifier;
         private readonly int _logRate = 300;
@@ -145,6 +146,14 @@ namespace Editor
         public void GetParticipants(Action<List<Participant>> responseCallback)
         {
             StartCoroutine(LoggerHelper.GetParticipants(_apiBaseUrl, _applicationIdentifier, _organisationCode, responseCallback));
+        }
+
+
+        public void GetVrData(Action<VrData> responseCallback, string customServerUrl = "")
+        {
+            var webGlData = _webGLHelper.GetWebGlData(customServerUrl);
+            StartCoroutine(LoggerHelper.GetVrData(webGlData.ServerUrl, webGlData.ApplicationIdentifier,
+                webGlData.OrganisationCode, webGlData.ActivityId, webGlData.EnvironmentId, responseCallback));
         }
         
         // ------------------------------------------------ Setters section ------------------------------------------------

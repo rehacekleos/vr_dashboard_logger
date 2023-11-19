@@ -31,48 +31,6 @@ namespace Editor.Classes
             records = new List<Record>();
             custom_data = customData;
         }
-        
-        // Getting VR data from server for defined applicationIdentifier, organisationCode and activityId
-        public IEnumerator GetVrData(string serverUrl, string applicationIdentifier, string organisationCode, string activityId, string environmentId, Action<VrData> responseCallback)
-        {
-            var url = serverUrl + "/public/vr-data/" + applicationIdentifier + "/" + organisationCode + "/" +
-                      activityId;
-
-            if (!string.IsNullOrEmpty(environmentId))
-            {
-                url += "/" + environmentId;
-            }
-
-            Debug.Log("Getting data from: " + url);
-            UnityWebRequest request = UnityWebRequest.Get(url);
-
-            yield return request.SendWebRequest();
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError(request.error);
-                responseCallback.Invoke(null);
-            }
-            else
-            {
-                var json = request.downloadHandler.text;
-                // Transform JSON text to VR data object
-                var data = CreateFromJson(json);
-
-                if (data == null)
-                {
-                    responseCallback.Invoke(null);
-                    throw new ArgumentNullException(nameof(data));
-                }
-
-                responseCallback.Invoke(data);
-            }
-        }
-        
-        private VrData CreateFromJson(string json)
-        {
-            return JsonConvert.DeserializeObject<VrData>(json);
-        }
 
         public override string ToString()
         {

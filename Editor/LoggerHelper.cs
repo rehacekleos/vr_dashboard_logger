@@ -12,6 +12,43 @@ namespace Editor
 {
     public class LoggerHelper
     {
+        
+        // Getting VR data from server for defined applicationIdentifier, organisationCode and activityId
+        public IEnumerator GetVrData(string serverUrl, string applicationIdentifier, string organisationCode, string activityId, string environmentId, Action<VrData> responseCallback)
+        {
+            var url = serverUrl + "/public/vr-data/" + applicationIdentifier + "/" + organisationCode + "/" +
+                      activityId;
+
+            if (!string.IsNullOrEmpty(environmentId))
+            {
+                url += "/" + environmentId;
+            }
+
+            Debug.Log("Getting data from: " + url);
+            UnityWebRequest request = UnityWebRequest.Get(url);
+
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError(request.error);
+                responseCallback.Invoke(null);
+            }
+            else
+            {
+                var json = request.downloadHandler.text;
+                // Transform JSON text to VR data object
+                var data = CreateVrDataFromJson(json);
+
+                if (data == null)
+                {
+                    responseCallback.Invoke(null);
+                    throw new ArgumentNullException(nameof(data));
+                }
+
+                responseCallback.Invoke(data);
+            }
+        }
 
 
         public IEnumerator SendActivity(string apiBaseUrl, Activity activity, Action<bool> responseCallback)
@@ -57,6 +94,11 @@ namespace Editor
 
                 responseCallback.Invoke(data.participants);
             }
+        }
+        
+        private VrData CreateVrDataFromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<VrData>(json);
         }
     }
 }

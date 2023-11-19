@@ -9,4 +9,4 @@ The package allows the following operations:
 
 
 ## Changelogs
-Changelogs are specified in a separate file `CHANGELOG.md`
+Changelogs are specified in a separate file [CHANGELOG.md](https://github.com/rehacekleos/vr_dashboard_logger/blob/main/CHANGELOG.md)

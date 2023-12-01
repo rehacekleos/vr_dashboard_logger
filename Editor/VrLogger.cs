@@ -142,7 +142,7 @@ namespace Editor
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
             }
-            StartCoroutine(LoggerHelper.SendActivity(_apiBaseUrl, Activity, responseCallback));
+            StartCoroutine(LoggerHelper.SendActivity(_apiBaseUrl, _applicationIdentifier, Activity, responseCallback));
         }
 
         /// <summary>

@@ -57,9 +57,10 @@ namespace Editor
             System.IO.File.WriteAllText(Application.persistentDataPath + "/vr-dashboard/" + now + ".json", json);
         }
 
-        public IEnumerator SendActivity(string apiBaseUrl, Activity activity, Action<bool> responseCallback)
+        public IEnumerator SendActivity(string apiBaseUrl, string applicationIdentifier, Activity activity,
+            Action<bool> responseCallback)
         {
-            var url = apiBaseUrl + "/";
+            var url = apiBaseUrl + "/public/activity/" + applicationIdentifier;
             var activityBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(activity));
 
             UnityWebRequest wr = new UnityWebRequest(url, WebRequestMethods.Http.Post);

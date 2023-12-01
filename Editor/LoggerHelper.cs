@@ -38,7 +38,7 @@ namespace Editor
             {
                 var json = request.downloadHandler.text;
                 // Transform JSON text to VR data object
-                var data = CreateVrDataFromJson(json);
+                var data = JsonConvert.DeserializeObject<VrData>(json);
 
                 if (data == null)
                 {
@@ -50,11 +50,17 @@ namespace Editor
             }
         }
 
+        public void SaveActivityIntoFile(Activity activity)
+        {
+            string json = JsonConvert.SerializeObject(activity);
+            var now = System.DateTime.Now.ToString("yyyy-MM-dd\\THH:mm:ss\\Z");
+            System.IO.File.WriteAllText(Application.persistentDataPath + "/vr-dashboard/" + now + ".json", json);
+        }
 
         public IEnumerator SendActivity(string apiBaseUrl, Activity activity, Action<bool> responseCallback)
         {
             var url = apiBaseUrl + "/";
-            var activityBytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(activity));
+            var activityBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(activity));
 
             UnityWebRequest wr = new UnityWebRequest(url, WebRequestMethods.Http.Post);
             UploadHandler uploader = new UploadHandlerRaw(activityBytes);
@@ -94,11 +100,6 @@ namespace Editor
 
                 responseCallback.Invoke(data.participants);
             }
-        }
-        
-        private VrData CreateVrDataFromJson(string json)
-        {
-            return JsonConvert.DeserializeObject<VrData>(json);
         }
     }
 }

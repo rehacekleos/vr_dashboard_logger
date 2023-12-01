@@ -1,5 +1,5 @@
 # VR Dashboard Logger
-### Version: 1.0.0
+### Version: 1.0.1
 
 This package is used to support VR Dashboard within unity.
 The package allows the following operations:

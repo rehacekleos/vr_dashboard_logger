@@ -128,15 +128,20 @@ namespace Editor
             _logging = false;
             Debug.Log("Logging stopped.");
         }
-        
+
         /// <summary>
         /// Sending logged activity to server.
         /// <br></br>
         /// Callback return true if success else return false.
         /// </summary>
         /// <param name="responseCallback">Function which accept boolean.</param>
-        public void SendActivity(Action<bool> responseCallback)
-        { 
+        /// <param name="savetoLocalFile">If true then save activity into local file</param>
+        public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile)
+        {
+            if (savetoLocalFile)
+            {
+                LoggerHelper.SaveActivityIntoFile(Activity);
+            }
             StartCoroutine(LoggerHelper.SendActivity(_apiBaseUrl, Activity, responseCallback));
         }
 

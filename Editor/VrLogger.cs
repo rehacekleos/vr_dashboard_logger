@@ -9,10 +9,10 @@ namespace Editor
     public class VrLogger : LoggerBase
     {
         private readonly WebGLHelper _webGLHelper = new WebGLHelper();
-        private readonly string _apiBaseUrl;
-        private readonly string _applicationIdentifier;
-        private readonly int _logRate = 300;
-        private readonly string _logVersion;
+        public string apiBaseUrl;
+        public string applicationIdentifier;
+        public int logRate = 300;
+        public string logVersion;
         
         private string _organisationCode;
         private string _participantId;
@@ -20,49 +20,15 @@ namespace Editor
         private string _customData;
         private bool _logging;
 
-        /// <summary>
-        /// Empty Constructor. Using for WebGL module
-        /// </summary>
-        public VrLogger()
-        {
-        }
-
-        /// <summary>
-        /// Default Constructor with Log Rate 300 ms.
-        /// </summary>
-        /// <param name="apiBaseUrl">Base url of server API. For example: http://localhost:8080</param>
-        /// <param name="applicationIdentifier">Application identifier</param>
-        /// <param name="logVersion">Log version "1.0.0"</param>
-        public VrLogger(string apiBaseUrl, string applicationIdentifier, string logVersion)
-        {
-            _apiBaseUrl = apiBaseUrl;
-            _applicationIdentifier = applicationIdentifier;
-            _logVersion = logVersion;
-        }
-
-
-        /// <summary>
-        /// Constructor with custom Log Rate.
-        /// </summary>
-        /// <param name="apiBaseUrl">Base url of server API. For example: http://localhost:8080</param>
-        /// <param name="applicationIdentifier">Application identifier</param>
-        /// <param name="logVersion">Log version "1.0.0"</param>
-        /// <param name="logRate">Log rate</param>
-        public VrLogger(string apiBaseUrl, string applicationIdentifier, string logVersion, int logRate)
-        {
-            _apiBaseUrl = apiBaseUrl;
-            _applicationIdentifier = applicationIdentifier;
-            _logRate = logRate;
-            _logVersion = logVersion;
-        }
-
         
         /// <summary>
         /// This method is for initialize logger.
         /// <br></br>
-        /// Need to be call before StartLogging().
+        /// Need to be call after SetOrganisation(), SetParticipant() and before StartLogging().
         /// </summary>
         /// <exception cref="Exception"></exception>
+        /// <seealso cref="SetOrganisation"/>
+        /// <seealso cref="SetParticipant"/>
         /// <seealso cref="StartLogging"/>
         public void InitializeLogger()
         {
@@ -77,17 +43,22 @@ namespace Editor
                 participant = _participantId;
             }
 
-            var vrData = new VrData(_applicationIdentifier, _logVersion, _logRate, _customData);
+            var vrData = new VrData(applicationIdentifier, logVersion, logRate, _customData);
             Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
+            
+            Debug.Log("Vr Logger Initialized.");
         }
 
         
         /// <summary>
         /// Starting logging VR data.
+        /// <br></br>
+        /// Need to be call after InitializeLogger().
         /// </summary>
         /// <param name="environment">Environmental key</param>
         /// <exception cref="Exception">Logging is active!</exception>
         /// <exception cref="Exception">Logger is not Initialized!</exception>
+        /// <seealso cref="InitializeLogger"/>
         public void StartLogging(string environment)
         {
             if (_logging)
@@ -104,7 +75,7 @@ namespace Editor
             Environment = environment;
             Activity.data.start = DateTime.Now;
 
-            var logRateInSeconds = _logRate / 1000f;
+            var logRateInSeconds = logRate / 1000f;
 
             StartCoroutine(LoggingCoroutine(logRateInSeconds));
             Debug.Log("Logging started.");
@@ -136,13 +107,13 @@ namespace Editor
         /// </summary>
         /// <param name="responseCallback">Function which accept boolean.</param>
         /// <param name="savetoLocalFile">If true then save activity into local file</param>
-        public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile)
+        public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile = false)
         {
             if (savetoLocalFile)
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
             }
-            StartCoroutine(LoggerHelper.SendActivity(_apiBaseUrl, _applicationIdentifier, Activity, responseCallback));
+            StartCoroutine(LoggerHelper.SendActivity(apiBaseUrl, applicationIdentifier, Activity, responseCallback));
         }
 
         /// <summary>
@@ -157,7 +128,7 @@ namespace Editor
         /// <seealso cref="SetOrganisation"/>
         public void GetParticipants(Action<List<Participant>> responseCallback)
         {
-            StartCoroutine(LoggerHelper.GetParticipants(_apiBaseUrl, _applicationIdentifier, _organisationCode, responseCallback));
+            StartCoroutine(LoggerHelper.GetParticipants(apiBaseUrl, applicationIdentifier, _organisationCode, responseCallback));
         }
 
 
@@ -201,7 +172,8 @@ namespace Editor
         /// <seealso cref="InitializeLogger"/>
         public void SetParticipant(string participantId)
         {
-            _participantId = _organisationCode;
+            Debug.Log("Set participant with Id: " + participantId);
+            _participantId = participantId;
             _isAnonymous = false;
         }
         

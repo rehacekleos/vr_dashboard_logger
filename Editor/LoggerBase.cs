@@ -27,9 +27,9 @@ namespace Editor
 
         public void Start()
         {
-            _isHeadNotNull = head == null;
-            _isLeftHandNotNull = leftHand == null;
-            _isRightHandNotNull = rightHand == null;
+            _isHeadNotNull = head != null;
+            _isLeftHandNotNull = leftHand != null;
+            _isRightHandNotNull = rightHand != null;
         }
         
         protected IEnumerator LoggingCoroutine(float waitTime)

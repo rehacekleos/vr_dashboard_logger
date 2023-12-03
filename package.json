@@ -1,5 +1,5 @@
 {
-  "name": "cz.leosreahcek.vr_dashboard_logger",
+  "name": "cz.leosrehacek.vr_dashboard_logger",
   "version": "1.0.1",
   "displayName": "VR dashboard logger",
   "description": "This package is used to log VR data to a compatible server.",

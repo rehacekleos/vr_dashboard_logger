@@ -1,6 +1,11 @@
 # VR Dashboard Logger
 ### ![version](https://img.shields.io/badge/version-1.0.1-blue)
 
+This is the unity package that is used to communicate with the VR Dashboard server.<br>
+The package supports getting the necessary information for logging VR data and for use in the WebGL module.
+
+All available functionality can be found in the Changelogs file.
+
 ## Changelogs
 Changelogs are specified in a separate file [CHANGELOG.md](https://github.com/rehacekleos/vr_dashboard_logger/blob/main/CHANGELOG.md)
 

@@ -20,11 +20,14 @@ Create your own script where you implement the basic functionality.
 
 #### Example of using Vr Logger in your own script (Example Usage):
 ```c++
- // Public field to import VrLogger
-public VrLogger vrLogger;
+ // Private field for VrLogger
+private VrLogger vrLogger;
 
 void Start()
 {
+    
+    // Getting instance
+     vrLogger = (VrLogger)VrLogger.Instance;
     
     // Set Organisation by Organisation code 
     vrLogger.SetOrganisation("KOyLfT");

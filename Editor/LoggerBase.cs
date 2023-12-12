@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Classes;
+using UnityEditor;
 using UnityEngine;
 
 namespace Editor
 {
-    public class LoggerBase : MonoBehaviour
+    public class LoggerBase: MonoSingleton<LoggerBase>
     {
         public GameObject head;
         public GameObject leftHand;

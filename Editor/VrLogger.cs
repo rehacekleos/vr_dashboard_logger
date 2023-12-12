@@ -46,7 +46,7 @@ namespace Editor
             var vrData = new VrData(applicationIdentifier, logVersion, logRate, _customData);
             Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
             
-            Debug.Log("Vr Logger Initialized.");
+            Debug.Log("[Vr Logger] Initialized.");
         }
 
         
@@ -63,12 +63,12 @@ namespace Editor
         {
             if (_logging)
             {
-                throw new Exception("Logging is active!");
+                throw new Exception("[Vr Logger] Logging is active!");
             }
             
             if (Activity == null)
             {
-                throw new Exception("Logger is not Initialized!");
+                throw new Exception("[Vr Logger] Logger is not Initialized!");
             }
 
             _logging = true;
@@ -78,7 +78,7 @@ namespace Editor
             var logRateInSeconds = logRate / 1000f;
 
             StartCoroutine(LoggingCoroutine(logRateInSeconds));
-            Debug.Log("Logging started.");
+            Debug.Log("[Vr Logger] Logging started.");
         }
         
         
@@ -90,14 +90,14 @@ namespace Editor
         {
             if (_logging == false)
             {
-                throw new Exception("Logging is not active!");
+                throw new Exception("[Vr Logger] Logging is not active!");
             }
             
             Activity.data.end = DateTime.Now;
             
             StopCoroutine(LoggingCoroutine(0));
             _logging = false;
-            Debug.Log("Logging stopped.");
+            Debug.Log("[Vr Logger] Logging stopped.");
         }
 
         /// <summary>
@@ -113,6 +113,9 @@ namespace Editor
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
             }
+
+            Activity.data.custom_data = _customData;
+            
             StartCoroutine(LoggerHelper.SendActivity(apiBaseUrl, applicationIdentifier, Activity, responseCallback));
         }
 
@@ -172,7 +175,7 @@ namespace Editor
         /// <seealso cref="InitializeLogger"/>
         public void SetParticipant(string participantId)
         {
-            Debug.Log("Set participant with Id: " + participantId);
+            Debug.Log("[Vr Logger] Set participant with Id: " + participantId);
             _participantId = participantId;
             _isAnonymous = false;
         }

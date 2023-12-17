@@ -20,7 +20,7 @@ namespace Editor.Classes
              var position = obj.transform.position;
              var positionAxis = new Axis(position.x, position.y, position.z);
 
-             var rotation = obj.transform.rotation;
+             var rotation = obj.transform.eulerAngles;
              var rotationAxis = new Axis(rotation.x, rotation.y, rotation.z);
 
              return new PositionAndRotation(positionAxis, rotationAxis);

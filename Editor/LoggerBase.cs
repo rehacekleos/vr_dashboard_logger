@@ -12,13 +12,14 @@ namespace Editor
         public GameObject head;
         public GameObject leftHand;
         public GameObject rightHand;
+        public bool globalPositionAndRotation = true;
         
         protected readonly List<string> Events = new List<string>();
         protected string Environment;
         protected string RecordCustomData;
         protected Activity Activity;
         
-        protected LoggerHelper LoggerHelper= new LoggerHelper();
+        protected LoggerHelper LoggerHelper = new LoggerHelper();
         
         private bool _isHeadNotNull;
         private bool _isLeftHandNotNull;
@@ -65,17 +66,17 @@ namespace Editor
 
             if (_isHeadNotNull)
             {
-                headData = PositionAndRotation.GetPositionAndRotation(head);
+                headData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(head) : PositionAndRotation.GetLocalPositionAndRotation(head);
             }
 
             if (_isLeftHandNotNull)
             {
-                leftHandData = PositionAndRotation.GetPositionAndRotation(leftHand);
+                leftHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(leftHand) : PositionAndRotation.GetLocalPositionAndRotation(leftHand);
             }
 
             if (_isRightHandNotNull)
             {
-                rightHandData = PositionAndRotation.GetPositionAndRotation(rightHand);
+                rightHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(rightHand) : PositionAndRotation.GetLocalPositionAndRotation(rightHand);
             }
 
             var record = new Record(DateTime.Now, _tick, Environment, headData, leftHandData, rightHandData,

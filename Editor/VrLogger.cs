@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Classes;
+using Newtonsoft.Json;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Editor
 {
@@ -17,7 +19,7 @@ namespace Editor
         private string _organisationCode;
         private string _participantId;
         private bool _isAnonymous = true;
-        private string _customData;
+        private Object _customData;
         private bool _logging;
 
         
@@ -43,7 +45,7 @@ namespace Editor
                 participant = _participantId;
             }
 
-            var vrData = new VrData(applicationIdentifier, logVersion, logRate, _customData);
+            var vrData = new VrData(applicationIdentifier, logVersion, logRate);
             Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
             
             Debug.Log("[Vr Logger] Initialized.");
@@ -190,7 +192,15 @@ namespace Editor
         /// <seealso cref="StartLogging"/>
         public void SetCustomData(string customDataJson)
         {
-            _customData = customDataJson;
+            try
+            {
+                _customData = JsonConvert.DeserializeObject<Object>(customDataJson);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[Vr Logger] Wrong string value: " + e);
+                throw;
+            }
         }
 
         /*
@@ -216,7 +226,15 @@ namespace Editor
         /// <param name="eventCustomDataJson">Environment custom data in Json format</param>
         public void SetRecordCustomData(string eventCustomDataJson)
         {
-            RecordCustomData = eventCustomDataJson;
+            try
+            {
+                RecordCustomData = JsonConvert.DeserializeObject<Object>(eventCustomDataJson);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[Vr Logger] Wrong string value: " + e);
+                throw;
+            }
         }
         
         /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Editor.Classes;
 using UnityEditor;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Editor
 {
@@ -16,7 +17,7 @@ namespace Editor
         
         protected readonly List<string> Events = new List<string>();
         protected string Environment;
-        protected string RecordCustomData;
+        protected Object RecordCustomData;
         protected Activity Activity;
         
         protected LoggerHelper LoggerHelper = new LoggerHelper();
@@ -47,7 +48,7 @@ namespace Editor
         private void Logging()
         {
             string[] events = null;
-            string customData = null;
+            Object customData = null;
             PositionAndRotation headData = null;
             PositionAndRotation leftHandData = null;
             PositionAndRotation rightHandData = null;
@@ -58,7 +59,7 @@ namespace Editor
                 Events.Clear();
             }
 
-            if (!string.IsNullOrEmpty(RecordCustomData))
+            if (RecordCustomData != null)
             {
                 customData = RecordCustomData;
                 RecordCustomData = null;

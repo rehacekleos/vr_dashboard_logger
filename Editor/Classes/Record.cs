@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Editor.Classes
 {
@@ -13,10 +14,10 @@ namespace Editor.Classes
         [CanBeNull] public PositionAndRotation head;
         [CanBeNull] public PositionAndRotation left_hand;
         [CanBeNull] public PositionAndRotation right_hand;
-        [CanBeNull] public string custom_data;
+        [CanBeNull] public Object custom_data;
         [CanBeNull] public string[] events;
 
-        public Record(DateTime timestamp, int tick, string environment, [CanBeNull] PositionAndRotation head, [CanBeNull] PositionAndRotation leftHand, [CanBeNull] PositionAndRotation rightHand, [CanBeNull] string customData, [CanBeNull] string[] events)
+        public Record(DateTime timestamp, int tick, string environment, [CanBeNull] PositionAndRotation head, [CanBeNull] PositionAndRotation leftHand, [CanBeNull] PositionAndRotation rightHand, [CanBeNull] Object customData, [CanBeNull] string[] events)
         {
             this.timestamp = timestamp;
             this.tick = tick;

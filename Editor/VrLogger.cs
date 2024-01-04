@@ -109,12 +109,13 @@ namespace Editor
         /// <param name="savetoLocalFile">If true then save activity into local file</param>
         public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile = false)
         {
+            
+            Activity.data.custom_data = _customData;
+            
             if (savetoLocalFile)
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
             }
-
-            Activity.data.custom_data = _customData;
             
             StartCoroutine(LoggerHelper.SendActivity(apiBaseUrl, applicationIdentifier, Activity, responseCallback));
         }

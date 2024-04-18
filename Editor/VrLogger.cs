@@ -142,7 +142,11 @@ namespace Editor
         /// Getting VrData. Using for WebGL module.
         /// </summary>
         /// <param name="responseCallback">Returning VR data get from server</param>
-        /// <param name="customServerUrl">(Optional) Custom Server URL. Standard resolve serverUrl from hosting server.</param>
+        /// <param name="customServerUrl">
+        /// (Optional) Custom Server URL. Standard resolve serverUrl from hosting server.
+        /// For example: http://127.0.0.0:8080/?application_identifier=luna&amp;&amp;organisation_code=OWryGI&amp;&amp;activity_id=c06bae49-e540-4bbb-99dc-be5518a6ef89 .
+        /// Or with environment: http://127.0.0.0:8080/?application_identifier=luna&amp;&amp;organisation_code=OWryGI&amp;&amp;activity_id=c06bae49-e540-4bbb-99dc-be5518a6ef89&amp;&amp;environment_id=1
+        /// </param>
         public void GetVrData(Action<VrData> responseCallback, string customServerUrl = "")
         {
             var webGlData = _webGLHelper.GetWebGlData(customServerUrl);

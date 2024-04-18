@@ -19,11 +19,8 @@ namespace Editor
             {
                 webGlData.ServerUrl = customServerUrl;
             }
-            else
-            {
-                SetServerUrl(hostedUrl, webGlData);
-            }
-
+           
+            SetServerUrl(hostedUrl, webGlData);
             SetParameters(hostedUrl, webGlData);
 
             return webGlData;
@@ -59,7 +56,11 @@ namespace Editor
                 webGLData.ApplicationIdentifier = paramsDict["application_identifier"];
                 webGLData.OrganisationCode = paramsDict["organisation_code"];
                 webGLData.ActivityId = paramsDict["activity_id"];
-                webGLData.EnvironmentId = paramsDict["environment_id"];
+                
+                if (paramsDict.ContainsKey("environment_id"))
+                {
+                    webGLData.EnvironmentId = paramsDict["environment_id"];
+                }
             }
             else
             {

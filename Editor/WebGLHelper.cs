@@ -17,7 +17,7 @@ namespace Editor
             
             if (customServerUrl != "")
             {
-                webGlData.ServerUrl = customServerUrl;
+                hostedUrl = customServerUrl;
             }
            
             SetServerUrl(hostedUrl, webGlData);

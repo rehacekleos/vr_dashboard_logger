@@ -11,9 +11,15 @@ namespace Editor
     public class VrLogger : LoggerBase
     {
         private readonly WebGLHelper _webGLHelper = new WebGLHelper();
+        
+        [Header("API Settings")]
         public string apiBaseUrl;
         public string applicationIdentifier;
+        
+        [Header("Log Rate (ms)")]
         public int logRate = 300;
+        
+        [Header("Log Version (Format: 1.0.0)")]
         public string logVersion;
         
         private string _organisationCode;

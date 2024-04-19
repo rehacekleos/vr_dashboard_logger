@@ -13,6 +13,7 @@ namespace Editor
             }
         }
 
+        
         private void Awake()
         {
             if (instance == null)

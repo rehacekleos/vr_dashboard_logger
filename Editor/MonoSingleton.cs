@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Editor
+namespace VrDashboardLogger.Editor
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {

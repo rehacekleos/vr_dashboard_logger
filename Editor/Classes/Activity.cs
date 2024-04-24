@@ -1,8 +1,7 @@
 using System;
 using JetBrains.Annotations;
-using UnityEngine;
 
-namespace Editor.Classes
+namespace VrDashboardLogger.Editor.Classes
 {
     [Serializable]
     public class Activity

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Editor.Classes
+namespace VrDashboardLogger.Editor.Classes
 {
     [Serializable]
     public class PositionAndRotation

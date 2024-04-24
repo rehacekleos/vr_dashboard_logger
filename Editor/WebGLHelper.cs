@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Editor.Classes;
 using UnityEngine;
 
-namespace Editor
+namespace VrDashboardLogger.Editor
 {
     public class WebGLHelper
     {

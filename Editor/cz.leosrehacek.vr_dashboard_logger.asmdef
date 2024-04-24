@@ -1,6 +1,6 @@
 {
     "name": "cz.leosrehacek.vr_dashboard_logger",
-    "rootNamespace": "",
+    "rootNamespace": "VrDashboardLogger",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
-using UnityEngine;
-using UnityEngine.Networking;
 using Object = System.Object;
 
-namespace Editor.Classes
+namespace VrDashboardLogger.Editor.Classes
 {
     [Serializable]
     public class VrData

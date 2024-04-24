@@ -1,9 +1,8 @@
 using System;
 using JetBrains.Annotations;
-using UnityEngine;
 using Object = System.Object;
 
-namespace Editor.Classes
+namespace VrDashboardLogger.Editor.Classes
 {
     [Serializable]
     public class Record

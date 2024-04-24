@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Editor.Classes;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using VrDashboardLogger.Editor.Classes;
 
-namespace Editor
+namespace VrDashboardLogger.Editor
 {
     public class LoggerHelper
     {

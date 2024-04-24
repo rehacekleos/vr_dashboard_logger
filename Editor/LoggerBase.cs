@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Editor.Classes;
 using UnityEngine;
+using VrDashboardLogger.Editor.Classes;
 using Object = System.Object;
 
-namespace Editor
+namespace VrDashboardLogger.Editor
 {
     public class LoggerBase : MonoSingleton<LoggerBase>
     {

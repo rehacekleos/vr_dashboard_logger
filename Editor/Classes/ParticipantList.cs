@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Editor.Classes
+namespace VrDashboardLogger.Editor.Classes
 {
     [Serializable]
     public class ParticipantList
